@@ -1,21 +1,22 @@
 import React, { useState } from 'react'
 
 import { AiOutlineClose, AiOutlineMenu } from 'react-icons/ai';
+import { useAuth } from '../../auth/context/authContext';
+import { useNavigate } from 'react-router-dom';
 
 
-export const Navbar = () => {
+export const Navbar = ({navItems=[]}) => {
   const [nav, setNav] = useState(false);
-
+  const navigate=useNavigate()
+  const { logout, token } = useAuth();
   // Toggle function to handle the navbar's display
   const handleNav = () => {
     setNav(!nav);
   };
 
+  const onLogout =()=>logout(token);
   // Array containing navigation items
-  const navItems = [
-    { id: 1, text: 'Inicio' },
-    { id: 2, text: 'Salir' },
-  ];
+
 
   return (
     <div className='bg-blue-950 flex justify-between items-center h-24 w-full mx-auto px-4 text-white'>
@@ -26,11 +27,16 @@ export const Navbar = () => {
         {navItems.map(item => (
           <li
             key={item.id}
+            onClick={()=>navigate(item.route)}
             className='p-4 hover:bg-green-300 rounded-xl m-2 cursor-pointer duration-300 hover:text-black '
           >
             {item.text}
           </li>
         ))}
+        <li
+            onClick={onLogout}
+            className='p-4 hover:bg-green-300 rounded-xl m-2 cursor-pointer duration-300 hover:text-black '
+          >Salir</li>
       </ul>
 
       {/* Movil */}
@@ -53,6 +59,10 @@ export const Navbar = () => {
             {item.text}
           </li>
         ))}
+        <li
+            onClick={onLogout}
+            className='p-4 border-b rounded-xl hover:bg-green-300 duration-300 hover:text-black cursor-pointer border-gray-600'
+          >Salir</li>
       </ul>
     </div>
   );

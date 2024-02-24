@@ -1,19 +1,36 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 
 
 import { TopTitle } from '../../components/TopTitle';
 import { DataTable } from '../../components/DataTable';
+import { useNavigate } from 'react-router-dom';
+import { useAlumno } from '../context/alumnoContext';
 
 export const AlumnosPage = () => {
 
+    const navigate=useNavigate()
+
+    const {alumnos, getAlumnos} = useAlumno();
+
     const handleNewAlumno = () => {
-        console.log('Función nuevo alumno');
+        navigate('/alumnos/nuevo')
     };
 
-    const headers = ['Matricula', 'Nombre', 'Grado', 'Carrera', 'Accion'];
-    const data = [
-      ['18030514', 'Jose Andres', '5', 'ISC', <div className='space-x-1'><a href="#">Edit</a><a href="#">Descargar</a></div>],
-    ];
+    useEffect(() => {
+        getAlumnos();
+    }, []);
+
+    const headers = ['Matricula', 'Nombre', 'Grado', 'Carrera', 'Acción'];
+
+    const data = alumnos.map((alumno) => [
+            alumno.matricula,
+            alumno.usuario.nombre,
+            alumno.grado,
+            alumno.carrera.carrera,
+        ]);
+
+        
+
 
     return (
         <>

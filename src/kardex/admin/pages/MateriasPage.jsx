@@ -1,10 +1,12 @@
 import React from 'react'
 import { TopTitle } from '../../components/TopTitle';
 import { DataTable } from '../../components/DataTable';
+import { useNavigate } from 'react-router-dom';
 
 export const MateriasPage = () => {
+    const navigate=useNavigate()
     const handleNewMateria = () => {
-        console.log('Función nueva materia');
+        navigate('/materias/nuevo')
     };
 
     const headers = ['CODIGO', 'MATERIA', 'GRADO', 'CAL MIN','ACCIÓN'];

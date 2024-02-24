@@ -1,10 +1,13 @@
 import React from 'react'
 import { TopTitle } from '../../components/TopTitle';
 import { DataTable } from '../../components/DataTable';
+import { useNavigate } from 'react-router-dom';
 
 export const AdminPage = () => {
+    const navigate=useNavigate()
+
     const handleNewAdmin = () => {
-        console.log('Función nuevo alumno');
+        navigate('/admins/nuevo')
     };
 
     const headers = ['ID', 'Nombre', 'Email', 'Acción'];
