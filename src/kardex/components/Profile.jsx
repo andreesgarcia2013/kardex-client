@@ -2,7 +2,7 @@ import React from 'react'
 
 import { AiOutlineUser } from 'react-icons/ai';
 
-export const Profile = ({alumno}) => {
+export const Profile = ({alumno={}}) => {
     return (
         <div className='flex flex-row space-x-5 align-middle items-center'>
           <div className='bg-gray-400 rounded-full w-fit h-fit p-2'>

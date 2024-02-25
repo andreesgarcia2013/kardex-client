@@ -10,19 +10,19 @@ export const MateriaSelector = ({ materia, handleMateriaSeleccionada }) => {
         if (!selected) {
             setCalificacion(0);
         }
-        handleMateriaSeleccionada(materia.id, materia.materia, calificacion);
+        handleMateriaSeleccionada(materia.id_materia, materia.materia, calificacion);
     };
 
     const handleCalificacionChange = (e) => {
         if (selected) {
             setCalificacion(e.target.value);
-            handleMateriaSeleccionada(materia.id, materia.materia, e.target.value);
+            handleMateriaSeleccionada(materia.id_materia, materia.materia, e.target.value);
         }
     };
 
 
     return (
-        <tr key={materia.id}>
+        <tr key={materia.id_materia}>
             <td>
                 <input type="checkbox" checked={selected} onChange={handleCheck} />
             </td>

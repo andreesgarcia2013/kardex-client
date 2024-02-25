@@ -6,21 +6,25 @@ import { DataTable } from '../../components/DataTable';
 import { useAuth } from '../../../auth/context/authContext';
 
 import { pdfKardexRequest, kardexRequest } from "../../../api/alumno";
+import { useParams } from "react-router-dom";
+import { useAlumno } from "../context/alumnoContext";
+import { getKardexRequest, getPdfKardexRequest } from "../../../api/manager";
 
 
 export const KardexPage = () => {
 
-  
-  const {user, token} = useAuth();
 
   const [kardex, setKardex] = useState([]);
   const [promedio, setPromedio] = useState(0);
-  
-  const {alumnoData}=user;
 
+  const [alumnoData, setAlumnoData] = useState({});
+  const params = useParams();
+  const {getAlumno} = useAlumno();
+  const {token} = useAuth();
+  
   const getKardex= async  () =>{
     try {
-      await kardexRequest(alumnoData.id_alumno, token).then((response)=>{
+      await getKardexRequest(params.id_alumno, token).then((response)=>{
         setPromedio(response.data.data.promedio)
         setKardex(response.data.data.kardex);
       });
@@ -30,12 +34,20 @@ export const KardexPage = () => {
   }
 
   useEffect(() => {
+    const loadAlumno = async () => {
+      if (params.id_alumno) {
+        const {data} = await getAlumno(params.id_alumno);
+        setAlumnoData(data);
+        // console.log(data.usuario.nombre);
+      }
+    }
+    loadAlumno();
     getKardex();
   }, []);
 
   const download= async () => {
     try {
-      const response = await pdfKardexRequest(alumnoData.id_alumno, token);  
+      const response = await getPdfKardexRequest(alumnoData.id_alumno, token);  
       const blob = new Blob([response.data]);
       const url = window.URL.createObjectURL(blob);
   
@@ -56,11 +68,11 @@ export const KardexPage = () => {
   }
 
     const alumnoInfo = {
-        nombre: user.nombre,
-        matricula: alumnoData.matricula,
-        grado: alumnoData.grado,
-        carrera: alumnoData.carrera.carrera,
-        promedio: promedio,
+      nombre: alumnoData.usuario?.nombre,
+      matricula: alumnoData.matricula,
+      grado: alumnoData.grado,
+      carrera: alumnoData.carrera?.carrera,
+      promedio: promedio,
     };
 
     const headers = ['CÓDIGO', 'MATERIA', 'GRADO', 'CALIFICACIÓN'];
@@ -73,7 +85,6 @@ export const KardexPage = () => {
         {itemKardex.calificacion}
       </p>
     ]);
-
   return (
     <>
         <div className='bg-gray-200 rounded-md m-5 p-5 '>

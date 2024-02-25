@@ -20,6 +20,7 @@ export const DataTable = ({ headers, data }) => {
                     {cell}
                   </td>
                 ))}
+                
               </tr>
             ))}
           </tbody>

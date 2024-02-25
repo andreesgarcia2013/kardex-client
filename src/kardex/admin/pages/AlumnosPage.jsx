@@ -27,9 +27,14 @@ export const AlumnosPage = () => {
             alumno.usuario.nombre,
             alumno.grado,
             alumno.carrera.carrera,
+            <div className='space-x-2'>
+                <button onClick={()=>navigate(`/kardex/${alumno.id_alumno}`)}>Ver</button>
+                <button onClick={()=>navigate(`/lab/kardex/${alumno.id_alumno}`)}>Kardex</button>
+                <button onClick={()=>navigate(`/alumnos/${alumno.id_alumno}`)}>Editar</button>
+            </div>
         ]);
 
-        
+
 
 
     return (
